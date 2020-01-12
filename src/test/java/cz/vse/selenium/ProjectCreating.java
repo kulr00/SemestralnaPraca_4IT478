@@ -47,12 +47,12 @@ public class ProjectCreating {
     @Test
 
     public void projectNotCreated(){
-        //GIVEN
 
+        //GIVEN
         driver.get(PREFIX);
         WebDriverWait wait =new WebDriverWait(driver, 2);
-        //Login
 
+        //Login
         WebElement username = driver.findElement(By.name("username"));
         username.sendKeys("rukovoditel");
         WebElement password = driver.findElement(By.name("password"));
@@ -80,18 +80,16 @@ public class ProjectCreating {
         //THEN
         WebElement error = driver.findElement(By.id("fields_158-error"));
         Assert.assertTrue(error!=null);
-
     }
     @Test
 
     public void projectCreated(){
 
         //GIVEN
-
         driver.get(PREFIX);
         WebDriverWait wait =new WebDriverWait(driver, 3);
-        //Login
 
+        //Login
         WebElement username = driver.findElement(By.name("username"));
         username.sendKeys("rukovoditel");
         WebElement password = driver.findElement(By.name("password"));
@@ -143,14 +141,12 @@ public class ProjectCreating {
         WebElement infoProject = driver.findElement(By.cssSelector(".fa-info"));
         infoProject.click();
 
-
         //THEN
         //Confirm that my project exists
         WebElement projectName = driver.findElement(By.cssSelector(".caption"));
         Assert.assertTrue(projectName.getText().equals("Test_kulr00"));
 
-        //DELETING
-
+        //Deleting
         WebElement delete = driver.findElement(By.cssSelector(".btn-default:nth-child(1)"));
         delete.click();
         WebElement deleteProject = driver.findElement(By.linkText("Delete"));
@@ -158,10 +154,5 @@ public class ProjectCreating {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn:nth-child(3)")));
         WebElement confirmation = driver.findElement(By.cssSelector(".btn:nth-child(3)"));
         confirmation.click();
-
-
-
-
     }
-
 }

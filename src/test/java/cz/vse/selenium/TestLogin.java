@@ -34,7 +34,6 @@ public class TestLogin {
         cho.addArguments("headless");
         driver = new ChromeDriver(cho);
         driver.manage().window().maximize();
-
     }
 
     @After
@@ -47,11 +46,9 @@ public class TestLogin {
     public void validLogin(){
 
         //GIVEN
-
         driver.get(PREFIX);
 
         //WHEN
-
         WebElement username = driver.findElement(By.name("username"));
         username.sendKeys("rukovoditel");
         WebElement password = driver.findElement(By.name("password"));
@@ -67,11 +64,9 @@ public class TestLogin {
     @Test
     public void invalidLogin(){
         //GIVEN
-
         driver.get(PREFIX);
 
         //WHEN
-
         WebElement username = driver.findElement(By.name("username"));
         username.sendKeys("rukovoditel");
         WebElement password = driver.findElement(By.name("password"));
@@ -92,10 +87,9 @@ public class TestLogin {
     public void logOff(){
 
         //GIVEN
-
         driver.get(PREFIX);
-        //Login
 
+        //Login
         WebElement username = driver.findElement(By.name("username"));
         username.sendKeys("rukovoditel");
         WebElement password = driver.findElement(By.name("password"));
@@ -108,7 +102,7 @@ public class TestLogin {
         WebElement menu = driver.findElement(By.cssSelector(".fa-angle-down"));
         menu.click();
 
-        //Čakanie nebolo potrebné
+        //Cakanie nebolo potrebné
         /*WebDriverWait wait = new WebDriverWait(driver, 1);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Logoff")));*/
         WebElement logOffButton = driver.findElement(By.linkText("Logoff"));
@@ -118,8 +112,6 @@ public class TestLogin {
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel"));
         WebElement h3 = driver.findElement(By.className("form-title"));
         Assert.assertTrue(h3.getText().equals("Login"));
-
-
     }
 
 }
