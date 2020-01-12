@@ -44,7 +44,7 @@ public class AppTest {
         cho.addArguments("headless");
         driver = new ChromeDriver(cho);
         driver.manage().window().maximize();
-        awdawd;
+
     }
 
     @After
