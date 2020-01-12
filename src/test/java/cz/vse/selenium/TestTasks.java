@@ -135,6 +135,36 @@ public class TestTasks {
         WebElement saveTask = driver.findElement(By.cssSelector(".btn-primary-modal-action"));
         saveTask.click();
 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa-info")));
+        WebElement infoTask = driver.findElement(By.cssSelector(".fa-info"));
+        infoTask.click();
+
+        //THEN
+        WebElement type = driver.findElement(By.cssSelector(".form-group-167 div"));
+        Assert.assertTrue(type.getText().equals("Task"));
+
+        WebElement description = driver.findElement(By.cssSelector(".content_box_content"));
+        Assert.assertTrue(description.getText().equals("Popis"));
+
+        WebElement nameT = driver.findElement(By.cssSelector(".caption"));
+        Assert.assertTrue(nameT.getText().equals("Task_kulr00"));
+
+        WebElement priorityT= driver.findElement(By.cssSelector(".form-group-170 div"));
+        Assert.assertTrue(priorityT.getText().equals("Medium"));
+
+        WebElement statusT = driver.findElement(By.cssSelector(".form-group-169 div"));
+        Assert.assertTrue(statusT.getText().equals("New"));
+
+        //DELETING
+
+        WebElement delete = driver.findElement(By.cssSelector(".btn-default:nth-child(1)"));
+        delete.click();
+        WebElement deleteProject = driver.findElement(By.linkText("Delete"));
+        deleteProject.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn:nth-child(3)")));
+        WebElement confirmation = driver.findElement(By.cssSelector(".btn:nth-child(3)"));
+        confirmation.click();
+
 
 
     }
