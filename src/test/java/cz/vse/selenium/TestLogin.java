@@ -62,8 +62,29 @@ public class TestLogin {
 
     }
 
-    public void invalidLopgin(){
-        
+    @Test
+    public void invalidLogin(){
+        //GIVEN
+
+        driver.get(PREFIX);
+
+        //WHEN
+
+        WebElement username = driver.findElement(By.name("username"));
+        username.sendKeys("rukovoditel");
+        WebElement password = driver.findElement(By.name("password"));
+        password.sendKeys("invalidPwd");
+        WebElement button =driver.findElement(By.cssSelector(".btn"));
+        button.click();
+
+        //THEN
+        //Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+        WebElement alert = driver.findElement(By.cssSelector(".alert"));
+        WebElement logo = driver.findElement(By.cssSelector(".alert"));
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel"));
+        Assert.assertTrue(alert!=null);
+        Assert.assertTrue(logo!=null);
+
     }
 
 
