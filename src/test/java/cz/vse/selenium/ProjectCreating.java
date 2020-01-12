@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -88,7 +89,7 @@ public class ProjectCreating {
         //GIVEN
 
         driver.get(PREFIX);
-        WebDriverWait wait =new WebDriverWait(driver, 2);
+        WebDriverWait wait =new WebDriverWait(driver, 3);
         //Login
 
         WebElement username = driver.findElement(By.name("username"));
@@ -100,7 +101,7 @@ public class ProjectCreating {
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
         //WHEN
-        WebElement menu = driver.findElement(By.cssSelector(".navbar-toggle"));
+        WebElement menu = driver.findElement(By.className("fa-reorder"));
         menu.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Projects")));
@@ -127,7 +128,7 @@ public class ProjectCreating {
         saveButton.click();
 
         //Find created Project
-        WebElement menu2 = driver.findElement(By.cssSelector(".navbar-toggle"));
+        WebElement menu2 = driver.findElement(By.className("fa-reorder"));
         menu2.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Projects")));
@@ -135,13 +136,29 @@ public class ProjectCreating {
         project2.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("entity_items_listing66_21_search_keywords")));
         WebElement search = driver.findElement(By.id("entity_items_listing66_21_search_keywords"));
+        search.sendKeys(Keys.chord(Keys.CONTROL,"a"));
         search.sendKeys("Test_kulr00");
         WebElement searchButton = driver.findElement(By.cssSelector(".fa-search"));
         searchButton.click();
+        WebElement infoProject = driver.findElement(By.cssSelector(".fa-info"));
+        infoProject.click();
+
 
         //THEN
-        WebElement projectExist = driver.findElement(By.linkText("Test_kulr00"));
-        Assert.assertTrue(projectExist!=null);
+        //Confirm that my project exists
+        WebElement projectName = driver.findElement(By.cssSelector(".caption"));
+        Assert.assertTrue(projectName.getText().equals("Test_kulr00"));
+
+        //DELETING
+
+        WebElement delete = driver.findElement(By.cssSelector(".btn-default:nth-child(1)"));
+        delete.click();
+        WebElement deleteProject = driver.findElement(By.linkText("Delete"));
+        deleteProject.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn:nth-child(3)")));
+        WebElement confirmation = driver.findElement(By.cssSelector(".btn:nth-child(3)"));
+        confirmation.click();
+
 
 
 
