@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProjectCreating {
@@ -22,16 +23,18 @@ public class ProjectCreating {
     public void init() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
         //ChromeDriverService service = new ChromeDriverService();
+        driver = new ChromeDriver();
         /*ChromeOptions cho = new ChromeOptions();
+        cho.addArguments("headless");
+        driver = new ChromeDriver(cho);*/
+        //driver.manage().window().maximize();
+
+        /*driver = new ChromeDriver();
+        ChromeOptions cho = new ChromeOptions();
         cho.addArguments("headless");
         driver = new ChromeDriver(cho);
         driver.manage().window().maximize();*/
 
-        driver = new ChromeDriver();
-        ChromeOptions cho = new ChromeOptions();
-        cho.addArguments("headless");
-        driver = new ChromeDriver(cho);
-        driver.manage().window().maximize();
 
     }
 
@@ -46,7 +49,7 @@ public class ProjectCreating {
         //GIVEN
 
         driver.get(PREFIX);
-        WebDriverWait wait =new WebDriverWait(driver, 1);
+        WebDriverWait wait =new WebDriverWait(driver, 2);
         //Login
 
         WebElement username = driver.findElement(By.name("username"));
@@ -58,8 +61,7 @@ public class ProjectCreating {
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
         //WHEN
-
-        WebElement menu = driver.findElement(By.cssSelector(".navbar-toggle"));
+        WebElement menu = driver.findElement(By.className("fa-reorder"));
         menu.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Projects")));
@@ -77,6 +79,69 @@ public class ProjectCreating {
         //THEN
         WebElement error = driver.findElement(By.id("fields_158-error"));
         Assert.assertTrue(error!=null);
+
+    }
+    @Test
+
+    public void projectCreated(){
+
+        //GIVEN
+
+        driver.get(PREFIX);
+        WebDriverWait wait =new WebDriverWait(driver, 2);
+        //Login
+
+        WebElement username = driver.findElement(By.name("username"));
+        username.sendKeys("rukovoditel");
+        WebElement password = driver.findElement(By.name("password"));
+        password.sendKeys("vse456ru");
+        WebElement button =driver.findElement(By.cssSelector(".btn"));
+        button.click();
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+
+        //WHEN
+        WebElement menu = driver.findElement(By.cssSelector(".navbar-toggle"));
+        menu.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Projects")));
+        WebElement project = driver.findElement(By.linkText("Projects"));
+        project.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn-primary")));
+        WebElement createButton = driver.findElement(By.cssSelector(".btn-primary"));
+        createButton.click();
+
+        //Creating project
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fields_157")));
+        Select select = new Select(driver.findElement(By.id("fields_157")));
+        select.selectByIndex(0);
+        Select priority = new Select(driver.findElement(By.id("fields_156")));
+        select.selectByIndex(1);
+        WebElement date = driver.findElement(By.cssSelector(".date-set"));
+        date.click();
+        WebElement currentdate = driver.findElement(By.cssSelector("tr > .active"));
+        currentdate.click();
+        WebElement name = driver.findElement(By.id("fields_158"));
+        name.sendKeys("Test_kulr00");
+        WebElement saveButton = driver.findElement(By.cssSelector(".btn-primary-modal-action"));
+        saveButton.click();
+
+        //Find created Project
+        WebElement menu2 = driver.findElement(By.cssSelector(".navbar-toggle"));
+        menu2.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Projects")));
+        WebElement project2 = driver.findElement(By.linkText("Projects"));
+        project2.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("entity_items_listing66_21_search_keywords")));
+        WebElement search = driver.findElement(By.id("entity_items_listing66_21_search_keywords"));
+        search.sendKeys("Test_kulr00");
+        WebElement searchButton = driver.findElement(By.cssSelector(".fa-search"));
+        searchButton.click();
+
+        //THEN
+        WebElement projectExist = driver.findElement(By.linkText("Test_kulr00"));
+        Assert.assertTrue(projectExist!=null);
 
 
 
